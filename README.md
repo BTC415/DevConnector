@@ -284,10 +284,10 @@ right of the screen.
 npm install
 ```
 
-### Install client dependencies
+### Install frontend dependencies
 
 ```bash
-cd client
+cd frontend
 npm install
 ```
 
@@ -300,13 +300,13 @@ npm run dev
 ### Build for production
 
 ```bash
-cd client
+cd frontend
 npm run build
 ```
 
 ### Test production before deploy
 
-After running a build in the client 👆, cd into the root of the project.  
+After running a build in the frontend 👆, cd into the root of the project.  
 And run...
 
 Linux/Unix
