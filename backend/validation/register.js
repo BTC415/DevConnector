@@ -38,3 +38,4 @@ const validateRegisterInput = (data) => {
   }
 }
 
+module.exports = validateRegisterInput;
