@@ -28,6 +28,9 @@ app.use('/api/profiles', profiles);
 //passport middleware
 app.use(passport.initialize())
 
+//passport config
+require("./config/passport")(passport);
+
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => console.log(`Server running on ${port}`))
