@@ -7,7 +7,10 @@ const passportJwt = require('passport-jwt')
 
 const router = express.Router();
 const User = require('../../models/User')
+const keys = require('../../config/keys').keys
 const validateRegisterInput = require("../../validation/register")
+const validateLoginInput = require("../../validation/login")
+
 
 //@route    GET api/users
 //@desc     Test user
@@ -21,6 +24,8 @@ router.get('/', (req, res) => {
 //@access   Public
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
+
+  //Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -48,7 +53,56 @@ router.post('/register', (req, res) => {
               .catch(err => res.status(404).json(err))
           })
         })
-        
+
+      }
+    })
+
+})
+
+//@route    POST api/users/login
+//@desc     Login 
+//@access   Public
+router.post('/login', (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  //Check validation
+  if (!isValid) {
+    res.status(400).json(errors)
+  }
+  
+  const { email, password } = req.body;
+  User.findOne({ email })
+    .then(user => {
+      if (!user) {
+        errors.email = 'User not found!'
+        return res.status(404).json(errors)
+      } else {
+        bcryptjs.compare(password, user.password)
+          .then(isMatch => {
+            if (isMatch) {
+              //User Matched
+              const payload = {
+                id: user.id,
+                name: user.name,
+                avatar: user.avatar
+              }
+              jwt.sign(
+                payload,
+                keys.secretOrKey,
+                { expiresIn: 3600 },
+                (err, token) => {
+                  return res.json({
+                    success: true,
+                    token: 'Bearer ' + token
+                  })
+                }
+              )
+              return res.json("success")
+            } else {
+              errors.password = "password incorrect"
+              return res.status(400).json(errors)
+            }
+          })
       }
     })
 
