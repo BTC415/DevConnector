@@ -7,7 +7,7 @@ const passportJwt = require('passport-jwt')
 
 const router = express.Router();
 const User = require('../../models/User')
-const keys = require('../../config/keys').keys
+const keys = require('../../config/keys').secretOrKey
 const validateRegisterInput = require("../../validation/register")
 const validateLoginInput = require("../../validation/login")
 
@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
   if (!isValid) {
     res.status(400).json(errors)
   }
-  
+
   const { email, password } = req.body;
   User.findOne({ email })
     .then(user => {
@@ -88,7 +88,7 @@ router.post('/login', (req, res) => {
               }
               jwt.sign(
                 payload,
-                keys.secretOrKey,
+                keys,
                 { expiresIn: 3600 },
                 (err, token) => {
                   return res.json({
@@ -97,13 +97,16 @@ router.post('/login', (req, res) => {
                   })
                 }
               )
-              return res.json("success")
             } else {
               errors.password = "password incorrect"
               return res.status(400).json(errors)
             }
           })
       }
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json("message: Server Error")
     })
 
 })
