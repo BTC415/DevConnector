@@ -6,7 +6,6 @@ const users = require("./routes/api/users");
 const posts = require("./routes/api/posts");
 const profiles = require("./routes/api/profiles");
 
-
 const app = express();
 
 //DB Config
@@ -17,14 +16,14 @@ mongoose.connect(db)
     .then(() => console.log("MongoDB connected!"))
     .catch(err => console.log(err))
 
+//Body-parser middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 //Use routes
 app.use('/api/users', users);
 app.use('/api/posts', posts);
 app.use('/api/profiles', profiles);
-
-//Body-parser middleware
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
 
 //passport middleware
 app.use(passport.initialize())
