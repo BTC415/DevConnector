@@ -1,37 +1,19 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-import styles from "../styles/layout.module.css";
-
 export const Nav = () => {
-  const pathname = usePathname();
 
   return (
-    <nav className={styles.nav}>
-      <Link
-        className={`${styles.link} ${pathname === "/" ? styles.active : ""}`}
-        href="/"
-      >
-        Home
-      </Link>
-      <Link
-        className={`${styles.link} ${
-          pathname === "/verify" ? styles.active : ""
-        }`}
-        href="/verify"
-      >
-        Verify
-      </Link>
-      <Link
-        className={`${styles.link} ${
-          pathname === "/quotes" ? styles.active : ""
-        }`}
-        href="/quotes"
-      >
-        Quotes
-      </Link>
-    </nav>
+    <div>
+      <nav className="flex justify-between items-center bg-black py-3 px-8 fixed z-10 w-full top-0 border border-b-2 bg-opacity-90 border-cyan-600">
+        <h1>
+          <Link href="/" className="text-white font-semibold text-2xl hover:text-lime-500">DevConnector</Link>
+        </h1>
+        <ul className="flex mx-1 ">
+          <li className="p-3 my-0 "><Link href="/profiles" className="text-white text-xl hover:text-lime-500 ">Developers</Link></li>
+          <li className="p-3 my-0 "><Link href="/register" className="text-white text-xl hover:text-lime-500">Register</Link></li>
+          <li className="p-3 my-0 "><Link href="/login" className="text-white text-xl hover:text-lime-500">Login</Link></li>
+        </ul>
+      </nav>
+
+    </div>
   );
 };

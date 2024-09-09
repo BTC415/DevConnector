@@ -7,7 +7,9 @@
     "footer";
   grid-template-rows: auto auto 1fr 36px;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
+  /* background-color: black;
+  opacity: 90; */
 }
 
 .logo {
