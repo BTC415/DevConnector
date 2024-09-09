@@ -20,9 +20,7 @@ export default function RootLayout({ children }: Props) {
     <StoreProvider>
       <html lang="en">
         <body>
-          <section className={`${styles.container}`} style={{
-            backgroundImage: `url('/showcase.jpg')`,
-          }}>
+          <section className={`${styles.container}`} >
             <Nav />
             <main className={`${styles.main}`}>{children}</main>
           </section>
