@@ -6,11 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.2.0",
+    "axios": "^1.7.7",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^9.1.0"
+    "react-redux": "^9.1.0",
+    "react-router": "^6.26.1",
+    "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
     "@types/node": "20.2.5",

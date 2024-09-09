@@ -3,7 +3,7 @@ export const Nav = () => {
 
   return (
     <div>
-      <nav className="flex justify-between items-center bg-black py-3 px-8 fixed z-10 w-full top-0 border border-b-2 bg-opacity-90 border-cyan-600">
+      <nav className="flex flex-col md:flex-row justify-between items-center bg-black py-3 px-8 fixed z-10 w-full top-0 border border-b-2 bg-opacity-90 border-cyan-600">
         <h1>
           <Link href="/" className="text-white font-semibold text-2xl hover:text-lime-500">DevConnector</Link>
         </h1>

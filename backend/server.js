@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 const passport = require("passport");
 const users = require("./routes/api/users");
 const posts = require("./routes/api/posts");
@@ -15,6 +16,13 @@ const db = require("./config/keys").mongoURI;
 mongoose.connect(db)
     .then(() => console.log("MongoDB connected!"))
     .catch(err => console.log(err))
+
+// Enable CORS for all routes
+app.use(cors({
+    origin: 'http://localhost:3000', // Allow requests from frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    credentials: true // Allow credentials (if needed)
+  }));
 
 //Body-parser middleware
 app.use(bodyParser.urlencoded({ extended: false }))
