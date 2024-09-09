@@ -1,12 +1,11 @@
 'use client'
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'; // Ensure this is imported  
+import React from 'react'
+import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import Input from '@/app/components/Input'
-
 
 const Register = () => {
   const baseURL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
@@ -23,13 +22,13 @@ const Register = () => {
     setName(event.target.value); // Update the name state
   };
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value); // Update the name state
+    setEmail(event.target.value); // Update the email state
   };
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value); // Update the name state
+    setPassword(event.target.value); // Update the password state
   };
   const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword2(event.target.value); // Update the name state
+    setPassword2(event.target.value); // Update the password2 state
   };
 
   //Handle form submit event
@@ -58,6 +57,7 @@ const Register = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <Input
+            id='name'
             type='text'
             placeholder='Name'
             required={true}
@@ -65,7 +65,8 @@ const Register = () => {
             onChange={handleNameChange}
           />
           <Input
-            type='text'
+            id='email'
+            type='email'
             placeholder='Email Address'
             required={true}
             value={email}
@@ -74,6 +75,7 @@ const Register = () => {
           <span className='text-gray-500'>This site uses Gravatar so if you want a profile image, use a Gravatar email
           </span>
           <Input
+            id='password'
             type='password'
             placeholder='Password'
             required={true}
@@ -81,6 +83,7 @@ const Register = () => {
             onChange={handlePasswordChange}
           />
           <Input
+            id='password2'
             type='password'
             placeholder='Confirm Password'
             required={true}

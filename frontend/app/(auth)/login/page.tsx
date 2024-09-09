@@ -1,8 +1,41 @@
 'use client'
+import React from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import Input from '@/app/components/Input'
+
 const Login = () => {
+  const baseURL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+  const router = useRouter()
+
+  //state variable for inputs
+  const [email, setEmail] = React.useState<string>("")
+  const [password, setPassword] = React.useState<string>("")
+
+  //Handle change event for state variables
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value); // Update the name state
+  };
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value); // Update the name state
+  };
+
+  //Handle form submit event
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    // Handle form submission
+    const userData = { email, password }
+
+    axios.post(`${baseURL}/api/users/login`, userData)
+      .then(res => router.push('/profiles'))
+      .catch(err => console.error(err))
+
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <div className="w-full h-screen">
@@ -12,11 +45,25 @@ const Login = () => {
           <FontAwesomeIcon icon={faUser} className="text-sm md:text-xl lg:text-2xl xl:text-3xl" />
           <p className='ml-2 text-sm md:text-xl lg:text-2xl xl:text-4xl'>Sign into Your Account</p>
         </div>
-        <form >
-          <input type='text' className='my-3 p-2 border border-black w-full lg:w-lg' placeholder='Email Address' required />
-          
-          <input type='password' className='my-3 p-2 border border-black w-full lg:w-lg' placeholder='Password' required />
-          <button type='submit' className='text-white bg-emerald-600 p-2 hover:bg-emerald-400 cursor-pointer my-3' >Login</button>
+        <form onSubmit={handleSubmit}>
+          <Input
+            id='email'
+            type='email'
+            placeholder='Email Address'
+            required={true}
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <Input
+            id='password'
+            type='password'
+            placeholder='Password'
+            required={true}
+            value={password}
+            onChange={handlePasswordChange}
+          />
+
+          <button type='submit' className='text-white bg-emerald-600 p-2 hover:bg-emerald-400 cursor-pointer my-3'>Login</button>
           <p>
             Don't have an account?
             <Link href="/register" className='text-emerald-600 cursor-pointer ml-2'>Sign Up</Link>
