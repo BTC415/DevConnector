@@ -2,13 +2,17 @@
 import React from 'react'
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
-import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
-import Input from '@/app/components/Input'
 
-const Register = () => {
-  const baseURL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+import Input from '@/app/components/Input'
+import { useAppSelector, useAppDispatch } from '@/lib/hooks';
+import { registerUser } from '@/lib/features/auth/authActions';
+import { RootState } from '@/lib/store';
+
+const Register: React.FC = () => {
+  const { loading } = useAppSelector((state: RootState) => state.auth)
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   //State variable for components
@@ -32,19 +36,22 @@ const Register = () => {
   };
 
   //Handle form submit event
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
     // Handle form submission
-    const userData = { name, email, password, password2 }
-
-    axios.post(`${baseURL}/api/users/register`, userData)
-      .then(res => router.push('/login'))
-      .catch(err => console.log(err))
-
-    setName("");
-    setEmail("");
-    setPassword("");
-    setPassword2("");
+    try {
+      await dispatch(registerUser({ name, email, password, password2 })).unwrap();
+      // Redirect to login page after successful registration  
+      router.push('/login');
+      // Optionally reset form fields  
+      setName("");
+      setEmail("");
+      setPassword("");
+      setPassword2("");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (
@@ -93,6 +100,7 @@ const Register = () => {
           <button
             type='submit'
             className='text-white bg-emerald-600 p-2 hover:bg-emerald-400 cursor-pointer my-3'
+            disabled={loading}
           >
             Register
           </button>

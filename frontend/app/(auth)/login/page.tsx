@@ -2,14 +2,18 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
-import Input from '@/app/components/Input'
 
-const Login = () => {
-  const baseURL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+import Input from '@/app/components/Input'
+import { useAppSelector, useAppDispatch } from '@/lib/hooks'
+import { loginUser } from '@/lib/features/auth/authActions'
+import { RootState } from '@/lib/store'
+
+const Login: React.FC = () => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
+  const { loading } = useAppSelector((state: RootState) => state.auth)
 
   //state variable for inputs
   const [email, setEmail] = React.useState<string>("")
@@ -24,15 +28,19 @@ const Login = () => {
   };
 
   //Handle form submit event
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     // Handle form submission
-    const userData = { email, password }
-
-    axios.post(`${baseURL}/api/users/login`, userData)
-      .then(res => router.push('/profiles'))
-      .catch(err => console.error(err))
-
+    try {
+      await dispatch(loginUser({ email, password })).unwrap();
+      // Redirect to login page after successful registration  
+      router.push('/profiles');
+      // Optionally reset form fields  
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
     setEmail("");
     setPassword("");
   };
@@ -63,7 +71,7 @@ const Login = () => {
             onChange={handlePasswordChange}
           />
 
-          <button type='submit' className='text-white bg-emerald-600 p-2 hover:bg-emerald-400 cursor-pointer my-3'>Login</button>
+          <button type='submit' className='text-white bg-emerald-600 p-2 hover:bg-emerald-400 cursor-pointer my-3' disabled={loading}>Login</button>
           <p>
             Don't have an account?
             <Link href="/register" className='text-emerald-600 cursor-pointer ml-2'>Sign Up</Link>
