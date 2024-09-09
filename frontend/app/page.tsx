@@ -4,9 +4,11 @@ import { Counter } from "./components/counter/Counter";
 
 export default function IndexPage() {
   return (
-    <div className="relative w-full h-screen bg-cover bg-center overflow-hidden bg-black flex opacity-80 items-center justify-center">
-      <div className="top-0 left-0 w-full">
-        <div className="flex flex-col justify-center items-center">
+    <div className="flex w-full h-screen bg-cover bg-center overflow-hidden items-center justify-center" style={{
+      backgroundImage: `url('/showcase.jpg')`,
+    }}>
+      <div className="w-full h-screen bg-black opacity-80 my-auto">
+        <div className=" flex flex-col justify-center items-center h-full">
           <h1 className="mb-4 text-6xl font-semibold font-serif text-white">Developer Connector</h1>
           <p className="text-3xl mx-auto my-5 font-sans text-white">
             Create a developer profile/portfolio, share posts and get help from
