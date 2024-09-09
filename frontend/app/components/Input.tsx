@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface InputProps {
+  id: string,
   type: string;
   placeholder: string;
   required: boolean;
@@ -8,9 +9,10 @@ interface InputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void; // Add onChange prop
 }
 
-const Input: React.FC<InputProps> = ({ type, placeholder, required, value, onChange }) => {
+const Input: React.FC<InputProps> = ({ id, type, placeholder, required, value, onChange }) => {
   return (
     <input
+      id={id}
       type={type}
       placeholder={placeholder}
       required={required}
