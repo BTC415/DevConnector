@@ -1,5 +1,17 @@
+'use client'
 import Link from "next/link";
-export const Nav = () => {
+import { useAppSelector, useAppDispatch } from '@/lib/hooks'
+import { RootState } from "@/lib/store";
+import { logoutUser } from "@/lib/features/auth/authSlice";
+
+export const Nav: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { userToken } = useAppSelector((state: RootState) => state.auth)
+
+  const handleLogout = () => {
+    dispatch(logoutUser())
+    console.log("Logged out successfully!")
+  }
 
   return (
     <div>
@@ -7,13 +19,24 @@ export const Nav = () => {
         <h1>
           <Link href="/" className="text-white font-semibold text-2xl hover:text-lime-500">DevConnector</Link>
         </h1>
-        <ul className="flex mx-1 ">
+        {/* <ul className="flex mx-1 ">
           <li className="p-3 my-0 "><Link href="/profiles" className="text-white text-xl hover:text-lime-500 ">Developers</Link></li>
           <li className="p-3 my-0 "><Link href="/register" className="text-white text-xl hover:text-lime-500">Register</Link></li>
           <li className="p-3 my-0 "><Link href="/login" className="text-white text-xl hover:text-lime-500">Login</Link></li>
-        </ul>
-      </nav>
-
-    </div>
+        </ul > */}
+        {userToken ?
+          (<ul className="flex mx-1 ">
+            <li className="p-3 my-0 "><Link href="/profiles" className="text-white text-xl hover:text-lime-500 ">Developers</Link></li>
+            <li className="p-3 my-0 "><button type="button" className="text-white text-xl hover:text-lime-500" onClick={handleLogout}>Logout</button></li>
+          </ul >)
+          :
+          (<ul className="flex mx-1 ">
+            <li className="p-3 my-0 "><Link href="/profiles" className="text-white text-xl hover:text-lime-500 ">Developers</Link></li>
+            <li className="p-3 my-0 "><Link href="/register" className="text-white text-xl hover:text-lime-500">Register</Link></li>
+            <li className="p-3 my-0 "><Link href="/login" className="text-white text-xl hover:text-lime-500">Login</Link></li>
+          </ul >)
+        }
+      </nav >
+    </div >
   );
 };
