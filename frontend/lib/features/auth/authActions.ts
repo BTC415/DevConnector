@@ -1,5 +1,4 @@
 // authActions.js
-import { useRouter } from 'next/navigation';
 import axios, { AxiosError } from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -22,10 +21,9 @@ export const registerUser = createAsyncThunk(
       }
       const response = await axios.post(
         `${backendURL}/api/users/register`,
-        { name, email, password, password2},
+        { name, email, password, password2 },
         config
       )
-      console.log("Register user success!!!")
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -44,12 +42,13 @@ export const registerUser = createAsyncThunk(
 
 // Async thunk for user login  
 export const loginUser = createAsyncThunk(
-  'auth/login',
+  'auth/loginUser',
   async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${backendURL}/api/users/login`, { email, password }, {
         headers: { 'Content-Type': 'application/json' },
       });
+      console.log("response data-------->", response.data)
       return response.data; // Assuming the response contains user info and token  
     } catch (error) {
       const axiosError = error as AxiosError;
