@@ -13,7 +13,6 @@ export const Nav: React.FC = () => {
   const handleLogout = () => {
     dispatch(logoutUser())
     router.push("/")
-    console.log("Logged out successfully!")
   }
 
   return (
