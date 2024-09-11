@@ -19,11 +19,7 @@ export const Nav: React.FC = () => {
         <h1>
           <Link href="/" className="text-white font-semibold text-2xl hover:text-lime-500">DevConnector</Link>
         </h1>
-        {/* <ul className="flex mx-1 ">
-          <li className="p-3 my-0 "><Link href="/profiles" className="text-white text-xl hover:text-lime-500 ">Developers</Link></li>
-          <li className="p-3 my-0 "><Link href="/register" className="text-white text-xl hover:text-lime-500">Register</Link></li>
-          <li className="p-3 my-0 "><Link href="/login" className="text-white text-xl hover:text-lime-500">Login</Link></li>
-        </ul > */}
+
         {userToken ?
           (<ul className="flex mx-1 ">
             <li className="p-3 my-0 "><Link href="/profiles" className="text-white text-xl hover:text-lime-500 ">Developers</Link></li>
