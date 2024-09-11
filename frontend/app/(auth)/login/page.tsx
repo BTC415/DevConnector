@@ -71,7 +71,6 @@ const Login: React.FC = () => {
             onChange={handlePasswordChange}
             error={error ? error.password : null}
           />
-
           <button type='submit' className='text-white bg-emerald-600 p-2 hover:bg-emerald-400 cursor-pointer my-3' disabled={loading}>Login</button>
           <p>
             Don't have an account?
