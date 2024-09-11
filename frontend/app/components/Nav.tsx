@@ -3,13 +3,16 @@ import Link from "next/link";
 import { useAppSelector, useAppDispatch } from '@/lib/hooks'
 import { RootState } from "@/lib/store";
 import { logoutUser } from "@/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 export const Nav: React.FC = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { userToken } = useAppSelector((state: RootState) => state.auth)
 
   const handleLogout = () => {
     dispatch(logoutUser())
+    router.push("/")
     console.log("Logged out successfully!")
   }
 

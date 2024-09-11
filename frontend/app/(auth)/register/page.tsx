@@ -11,7 +11,7 @@ import { registerUser } from '@/lib/features/auth/authActions';
 import { RootState } from '@/lib/store';
 
 const Register: React.FC = () => {
-  const { loading } = useAppSelector((state: RootState) => state.auth)
+  const { loading, error } = useAppSelector((state: RootState) => state.auth)
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -50,7 +50,7 @@ const Register: React.FC = () => {
       setPassword("");
       setPassword2("");
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("registrationError----->", error);
     }
   };
 
@@ -70,6 +70,7 @@ const Register: React.FC = () => {
             required={true}
             value={name}
             onChange={handleNameChange}
+            error={error ? error.name : null}
           />
           <Input
             id='email'
@@ -78,6 +79,7 @@ const Register: React.FC = () => {
             required={true}
             value={email}
             onChange={handleEmailChange}
+            error={error ? error.email : null}
           />
           <span className='text-gray-500'>This site uses Gravatar so if you want a profile image, use a Gravatar email
           </span>
@@ -88,6 +90,7 @@ const Register: React.FC = () => {
             required={true}
             value={password}
             onChange={handlePasswordChange}
+            error={error ? error.password : null}
           />
           <Input
             id='password2'
@@ -96,6 +99,7 @@ const Register: React.FC = () => {
             required={true}
             value={password2}
             onChange={handleConfirmPasswordChange}
+            error={error ? error.password2 : null}
           />
           <button
             type='submit'
