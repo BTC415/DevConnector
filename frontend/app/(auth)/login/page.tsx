@@ -13,7 +13,7 @@ import { RootState } from '@/lib/store'
 const Login: React.FC = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { loading } = useAppSelector((state: RootState) => state.auth)
+  const { loading, error } = useAppSelector((state: RootState) => state.auth)
 
   //state variable for inputs
   const [email, setEmail] = React.useState<string>("")
@@ -30,6 +30,7 @@ const Login: React.FC = () => {
   //Handle form submit event
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
     // Handle form submission
     try {
       await dispatch(loginUser({ email, password })).unwrap();
@@ -39,10 +40,8 @@ const Login: React.FC = () => {
       setEmail("");
       setPassword("");
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("LoginError-------->", error);
     }
-    setEmail("");
-    setPassword("");
   };
 
   return (
@@ -61,6 +60,7 @@ const Login: React.FC = () => {
             required={true}
             value={email}
             onChange={handleEmailChange}
+            error={error ? error.email : null}
           />
           <Input
             id='password'
@@ -69,6 +69,7 @@ const Login: React.FC = () => {
             required={true}
             value={password}
             onChange={handlePasswordChange}
+            error={error ? error.password : null}
           />
 
           <button type='submit' className='text-white bg-emerald-600 p-2 hover:bg-emerald-400 cursor-pointer my-3' disabled={loading}>Login</button>

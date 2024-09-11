@@ -27,12 +27,11 @@ export const registerUser = createAsyncThunk(
       return response.data
     } catch (error) {
       const axiosError = error as AxiosError
-      console.error("Registration error:", axiosError); // Log the entire error for debugging  
 
       // return custom error message from backend if present
       if (axiosError.response) {
         const errorData = axiosError.response.data as ErrorResponse;
-        return rejectWithValue(errorData.message)
+        return rejectWithValue(errorData)
       } else {
         return rejectWithValue(axiosError.message)
       }
@@ -51,9 +50,11 @@ export const loginUser = createAsyncThunk(
       return response.data; // Assuming the response contains user info and token  
     } catch (error) {
       const axiosError = error as AxiosError;
+      
+      // return custom error message from backend if present
       if (axiosError.response) {
-        const errorData = axiosError.response.data as { message: string };
-        return rejectWithValue(errorData.message);
+        const errorData = axiosError.response.data as ErrorResponse;
+        return rejectWithValue(errorData);
       } else {
         return rejectWithValue(axiosError.message);
       }

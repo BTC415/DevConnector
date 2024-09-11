@@ -1,6 +1,4 @@
 import { createAppSlice } from "@/lib/createAppSlice";
-import type { AppThunk } from "@/lib/store";
-import type { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { registerUser, loginUser } from "./authActions";
 
 export interface AuthSliceState {
@@ -11,10 +9,9 @@ export interface AuthSliceState {
     password: string
   },
   userToken: string | null,
-  error: string | null,
+  error: any,
   isAuthenticated: boolean
 }
-
 
 const initialState: AuthSliceState = {
   loading: false,
@@ -52,7 +49,7 @@ export const authSlice = createAppSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to register';
+        state.error = action.payload;
         state.isAuthenticated = false; // Ensure authenticated is false on error  
       })
       .addCase(loginUser.pending, (state) => {
@@ -67,20 +64,11 @@ export const authSlice = createAppSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string; // Set error message  
+        state.error = action.payload;
         state.isAuthenticated = false;
       });
   },
-  // You can define your selectors here. These selectors receive the slice
-  // state as their first argument.
-  // selectors: {
-  //   selectStatus: (auth) => auth.status,
-  // },
 });
 
 // Action creators are generated for each case reducer function.
 export const { logoutUser } = authSlice.actions;
-
-// Selectors returned by `slice.selectors` take the root state as their first argument.
-// export const { selectStatus } = authSlice.selectors;
-
