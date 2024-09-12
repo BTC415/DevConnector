@@ -3,14 +3,12 @@ const gravatar = require('gravatar');
 const bcryptjs = require('bcryptjs');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const passportJwt = require('passport-jwt')
 
 const router = express.Router();
 const User = require('../../models/User')
 const keys = require('../../config/keys').secretOrKey
 const validateRegisterInput = require("../../validation/register")
 const validateLoginInput = require("../../validation/login")
-
 
 //@route    GET api/users
 //@desc     Test user
@@ -53,10 +51,8 @@ router.post('/register', (req, res) => {
               .catch(err => res.status(404).json(err))
           })
         })
-
       }
     })
-
 })
 
 //@route    POST api/users/login
