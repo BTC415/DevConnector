@@ -3,19 +3,13 @@ const gravatar = require('gravatar');
 const bcryptjs = require('bcryptjs');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth')
 
 const router = express.Router();
 const User = require('../../models/User')
 const keys = require('../../config/keys').secretOrKey
 const validateRegisterInput = require("../../validation/register")
 const validateLoginInput = require("../../validation/login")
-
-//@route    GET api/users
-//@desc     Test user
-//@access   Public
-router.get('/', (req, res) => {
-  res.json("User routes")
-})
 
 //@route    POST api/users/register
 //@desc     Register user
@@ -110,12 +104,16 @@ router.post('/login', (req, res) => {
 //@route    GET api/users/
 //@desc     Get current user 
 //@access   Private
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json({
-    id: req.user.id,
-    name: req.user.name,
-    email: req.user.email
-  })
+router.get('/', auth, (req, res) => {
+  try {
+    res.json({
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email
+    })
+  } catch (err) {
+    res.status(500).json("Server error")
+  }
 })
 
 module.exports = router;
