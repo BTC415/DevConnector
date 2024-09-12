@@ -1,8 +1,19 @@
-import type { Metadata } from "next";
+'use client'
+import React, { useEffect } from "react";
 import Link from "next/link";
-import { Counter } from "./components/counter/Counter";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 
 export default function IndexPage() {
+  const router = useRouter();
+  const { isAuthenticated } = useAppSelector((state: RootState) => state.auth)
+  useEffect(() => {
+    if(isAuthenticated) {
+      router.push("/profiles")
+    }
+  }, [])
+
   return (
     <div className="flex w-full h-screen bg-cover bg-center overflow-hidden items-center justify-center" style={{
       backgroundImage: `url('/showcase.jpg')`,
