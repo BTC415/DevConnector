@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 import Input from '@/app/components/Input'
+import Spinner from '@/app/components/Spinner'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks'
 import { loginUser } from '@/lib/features/auth/authActions'
 import { RootState } from '@/lib/store'
@@ -44,7 +45,13 @@ const Login: React.FC = () => {
     }
   };
 
-  return (
+  return  loading ? (
+    <div className='flex w-full h-screen justify-center items-center'>
+      <div className="w-40">
+        <Spinner />
+      </div>
+    </div>
+  ) : (
     <div className="w-full h-screen">
       <div className="mx-10 lg:mx-60 mt-28">
         <h1 className="font-semibold text-3xl md:text-4xl xl:text-5xl text-blue-500 my-5">Sign In</h1>

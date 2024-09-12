@@ -6,12 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 import Input from '@/app/components/Input'
+import Spinner from '@/app/components/Spinner';
 import { useAppSelector, useAppDispatch } from '@/lib/hooks';
 import { registerUser } from '@/lib/features/auth/authActions';
 import { RootState } from '@/lib/store';
 
 const Register: React.FC = () => {
   const { loading, error } = useAppSelector((state: RootState) => state.auth)
+  
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -54,7 +56,13 @@ const Register: React.FC = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <div className='flex w-full h-screen justify-center items-center'>
+      <div className="w-40">
+        <Spinner />
+      </div>
+    </div>
+  ) : (
     <div className="w-full h-screen">
       <div className="mx-10 lg:mx-60 mt-28">
         <h1 className="font-semibold text-3xl md:text-4xl xl:text-5xl text-blue-500 my-5">Sign Up</h1>
@@ -113,7 +121,7 @@ const Register: React.FC = () => {
             <Link href="/login" className='text-emerald-600 cursor-pointer ml-2'>Sign In</Link>
           </p>
         </form>
-      </div>
+      </div >
     </div>
   )
 }
