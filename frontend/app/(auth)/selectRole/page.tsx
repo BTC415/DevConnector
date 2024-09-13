@@ -8,7 +8,8 @@ interface RoleCardProps {
   icon: any;
   text: string;
   role: string;
-  setRole: React.Dispatch<React.SetStateAction<>>;
+  selectedRole: string;
+  setRole: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const RoleSelection: React.FC = () => {
@@ -18,15 +19,15 @@ const RoleSelection: React.FC = () => {
     <div>
       <h1 className="m-2 p-2 text-4xl font-bold text-center">Join as a developer or recruiter</h1>
       <div className="flex items-center justify-center">
-        <RoleCard icon={faCode} text={"I am a Developer, looking for work"} role={"developer"} setRole={setRole} />
-        <RoleCard icon={faUserCheck} text={"I am a Recruiter, hiring for a project"} role={"recruiter"} setRole={setRole} />
+        <RoleCard icon={faCode} text={"I am a Developer, looking for work"} role={"developer"} setRole={setRole} selectedRole={role}/>
+        <RoleCard icon={faUserCheck} text={"I am a Recruiter, hiring for a project"} role={"recruiter"} setRole={setRole} selectedRole={role}/>
       </div>
       <div className="flex items-center justify-center mb-8">
         {!role && <button className="text-center font-bold text-2xl text-gray-500 bg-gray-200 p-4 border rounded">Create Account</button>}
         {role === "developer" && <Link href="/register/developer" className="text-center font-bold text-2xl text-white bg-green-500 p-4 border rounded">Apply as a Developer</Link>}
         {role === "recruiter" && <Link href="/register/recruiter" className="text-center font-bold text-2xl text-white bg-green-500 p-4 border rounded">Join as a Recruiter</Link>}
       </div>
-      <p className="text-center ">
+      <p className="text-center text-xl ">
         Already have an account?
         <Link href="/login" className='text-emerald-600 cursor-pointer ml-2'>Sign In</Link>
       </p>
@@ -34,9 +35,10 @@ const RoleSelection: React.FC = () => {
   )
 }
 
-const RoleCard: React.FC<RoleCardProps> = ({ icon, text, role, setRole }) => {
+const RoleCard: React.FC<RoleCardProps> = ({ icon, text, role, setRole, selectedRole }) => {
+  const isSelected = role === selectedRole;
   return (
-    <div onClick={() => setRole(role)} className="w-64 flex flex-col items-center m-8 p-8 border border-black rounded-lg hover:bg-gray-200 hover:border-green-300">
+    <div onClick={() => setRole(role)} className={`w-64 flex flex-col items-center m-8 p-8  border-2 ${isSelected ? `bg-gray-200 border-green-300` : `border-black`}  rounded-lg hover:bg-gray-200 hover:border-green-300`}>
       <div className="flex w-full justify-between mb-4">
         <FontAwesomeIcon icon={icon} className="mr-2 text-2xl" />
       </div>
