@@ -26,7 +26,7 @@ export default function IndexPage() {
             other developers
           </p>
           <div className="buttons">
-            <Link href="/register" className="m-4 px-3 py-2 text-xl font-serif text-white bg-green-400 hover:bg-green-500 rounded-sm">Sign Up</Link>
+            <Link href="/selectRole" className="m-4 px-3 py-2 text-xl font-serif text-white bg-green-400 hover:bg-green-500 rounded-sm">Sign Up</Link>
             <Link href="/login" className="m-4 px-3 py-2 text-xl font-serif text-black bg-gray-200 hover:bg-gray-300 rounded-sm">Login</Link>
           </div>
         </div>
