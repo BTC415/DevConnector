@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { Modal } from '@mui/base';
 
 import Input from '@/app/components/Input'
 import Spinner from '@/app/components/Spinner';
@@ -13,7 +14,7 @@ import { RootState } from '@/lib/store';
 
 const Register: React.FC = () => {
   const { loading, error } = useAppSelector((state: RootState) => state.auth)
-  
+
   const dispatch = useAppDispatch();
   const router = useRouter();
 
