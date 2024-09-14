@@ -6,10 +6,9 @@ const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
 
 const validateProfileInput = require('../../validation/profile');
-const passport = require('passport');
 
 //@route    GET api/profiles
-//@desc     Create Profiles 
+//@desc     Get current users profile 
 //@access   Private
 router.get('/', auth, (req, res) => {
   let errors = {};
@@ -26,7 +25,7 @@ router.get('/', auth, (req, res) => {
 })
 
 //@route    POST api/profiles
-//@desc     Create or Edit Profiles 
+//@desc     Create or Edit user profile 
 //@access   Private
 router.post('/', auth, (req, res) => {
   //Check if register inputs are valid
@@ -76,7 +75,47 @@ router.post('/', auth, (req, res) => {
           })
       }
     })
-
 })
+
+//@route    GET api/profiles/handle/:handle
+//@desc     Get user profile by handle
+//@access   Public
+
+
+//@route    GET api/profiles/user/:user_id
+//@desc     Get user profile by user id
+//@access   Public
+
+
+//@route    GET api/profiles/all
+//@desc     Get all users' profile
+//@access   Public
+
+
+//@route    POST api/profiles/add-experience
+//@desc     Add experience to profile
+//@access   Private
+
+
+//@route    POST api/profiles/add-education
+//@desc     Add education to profile
+//@access   Private
+
+
+//@route    DELETE api/profiles/:exp_id
+//@desc     Delete user's work experience by its id from profile
+//@access   Private
+
+
+//@route    DELETE api/profiles/:edu_id
+//@desc     Delete user's education by its id from profile
+//@access   Private
+
+
+//@route    DELETE api/profiles
+//@desc     Delete user's profile and user
+//@access   Private
+
+
 
 module.exports = router;
