@@ -74,7 +74,8 @@ router.post('/login', (req, res) => {
               const payload = {
                 id: user.id,
                 name: user.name,
-                avatar: user.avatar
+                avatar: user.avatar,
+                email: user.email,
               }
               jwt.sign(
                 payload,
@@ -109,6 +110,7 @@ router.get('/', auth, (req, res) => {
     res.json({
       id: req.user.id,
       name: req.user.name,
+      avatar: req.user.avatar,
       email: req.user.email
     })
   } catch (err) {

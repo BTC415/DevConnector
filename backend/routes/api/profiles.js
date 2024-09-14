@@ -13,7 +13,7 @@ const validateProfileInput = require('../../validation/profile');
 router.get('/', auth, (req, res) => {
   let errors = {};
   Profile.findOne({ user: req.user.id })
-    .populate('users', ['name', 'avatar'])
+    .populate('user', ['name', 'avatar'])
     .then(profile => {
       if (!profile) {
         errors.profile = "Profile does not exist for this user."
@@ -34,6 +34,7 @@ router.post('/', auth, (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors)
   }
+
   const profileFields = {};
   profileFields.user = req.user.id;
   profileFields.handle = req.body.handle;
@@ -43,8 +44,8 @@ router.post('/', auth, (req, res) => {
   if (req.body.bio) profileFields.bio = req.body.bio;
   if (req.body.status) profileFields.status = req.body.status;
   if (req.body.githubusername) profileFields.githubusername = req.body.githubusername;
-  profileFields.skills = req.body.skills.split(',');
 
+  profileFields.skills = req.body.skills
   //Social inputs
   profileFields.social = {};
   if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
@@ -57,6 +58,7 @@ router.post('/', auth, (req, res) => {
     .then(profile => {
       if (profile) {
         //update profile
+
         Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true })
           .then(profile => res.json(profile))
       } else {
@@ -80,7 +82,21 @@ router.post('/', auth, (req, res) => {
 //@route    GET api/profiles/handle/:handle
 //@desc     Get user profile by handle
 //@access   Public
+router.get('/handle/:handle', (req, res) => {
+  const handle = req.params.handle;
+  const errors = {};
+  Profile.findOne({ handle })
+    .populate('user', ['name', 'avatar'])
+    .then(profile => {
+      if (!profile) {
+        errors.profile = "There is no profile exists for this user."
+        return res.status(404).json(errors)
+      }
 
+      res.json(profile);
+    })
+    .catch(err => res.status(500).json(err))
+})
 
 //@route    GET api/profiles/user/:user_id
 //@desc     Get user profile by user id
