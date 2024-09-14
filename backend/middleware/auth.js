@@ -1,22 +1,30 @@
 const jwt = require("jsonwebtoken");
-const secretOrKey = require("../config/keys").secretOrKey;
+const secretOrKey = require("../config/keys").secretOrKey
 
 module.exports = function (req, res, next) {
   //Get token from request header
-  const token = req.header('x-auth-token')
-
+  const token = req.headers['authorization']
+  
   //Checks if token exits
   if (!token) {
     return res.status(401).json({ msg: "No token. Authorization denied!" })
   }
 
+  // Split the token from the 'Bearer' prefix
+  const bearer = token.split(' ');
+  if (bearer.length !== 2 || bearer[0] !== 'Bearer') {
+    return res.status(401).json({ msg: "Token format is invalid!" });
+  }
+
+  const jwtToken = bearer[1]; // The actual token
+
   //verify token
   try {
-    jwt.verify(token, secretOrKey, (error, decoded) => {
+    jwt.verify(jwtToken, secretOrKey, (error, decoded) => {
       if (error) {
         return res.status(401).json({ msg: "Token is invalid!" })
       } else {
-        req.user = decoded.user;
+        req.user = decoded;
         next()
       }
     })
