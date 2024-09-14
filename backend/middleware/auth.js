@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secretOrKey = require("../config/keys").secretOrKey
+const secretOrKey = require("../config/keys").secretOrKey;
 
 module.exports = function (req, res, next) {
   //Get token from request header
