@@ -93,7 +93,6 @@ router.get('/handle/:handle', (req, res) => {
         errors.profile = "There is no profile for this user."
         return res.status(404).json(errors)
       }
-
       res.json(profile);
     })
     .catch(err => res.status(500).json(err))
@@ -113,7 +112,6 @@ router.get('/user/:user_id', (req, res) => {
         errors.profile = "There is no profile for this user."
         return res.status(400).json(errors);
       }
-
       res.json(profile)
     })
 })
