@@ -6,6 +6,7 @@ const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
 
 const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
 
 //@route    GET api/profiles
 //@desc     Get current users profile 
@@ -116,7 +117,6 @@ router.get('/user/:user_id', (req, res) => {
     })
 })
 
-
 //@route    GET api/profiles/all
 //@desc     Get all users' profile
 //@access   Public
@@ -133,10 +133,18 @@ router.get('/all', (req, res) => {
     .catch(err => res.status(500).json("Internal Server Error: ", err))
 })
 
-
 //@route    POST api/profiles/add-experience
 //@desc     Add experience to profile
 //@access   Private
+router.post('/add-experience', (req, res) => {
+  //Check if input field is valid
+  const { errors, isValid } = validateExperienceInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
+  
+})
 
 
 //@route    POST api/profiles/add-education
