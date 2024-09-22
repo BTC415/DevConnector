@@ -120,6 +120,18 @@ router.get('/user/:user_id', (req, res) => {
 //@route    GET api/profiles/all
 //@desc     Get all users' profile
 //@access   Public
+router.get('/all', (req, res) => {
+  const errors = {};
+  Profile.find()
+    .then(profiles => {
+      if (!profiles) {
+        errors.profiles = "There isn't any user profiles."
+        return res.status(404).json(errors)
+      }
+      res.json(profiles)
+    })
+    .catch(err => res.status(500).json("Internal Server Error: ", err))
+})
 
 
 //@route    POST api/profiles/add-experience
