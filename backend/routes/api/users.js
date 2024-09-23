@@ -1,7 +1,6 @@
 const express = require('express');
 const gravatar = require('gravatar');
 const bcryptjs = require('bcryptjs');
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth')
 
