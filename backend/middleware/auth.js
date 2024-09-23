@@ -2,12 +2,13 @@ const jwt = require("jsonwebtoken");
 const secretOrKey = require("../config/keys").secretOrKey
 
 module.exports = function (req, res, next) {
+
   //Get token from request header
-  const token = req.headers['authorization']
+  const token = req.headers['authorization'];
   
   //Checks if token exits
   if (!token) {
-    return res.status(401).json({ msg: "No token. Authorization denied!" })
+    return res.status(401).json({ msg: "No token. Authorization denied!" });
   }
 
   // Split the token from the 'Bearer' prefix
