@@ -56,15 +56,15 @@ router.post('/login', (req, res) => {
 
   //Check validation
   if (!isValid) {
-    res.status(400).json(errors)
+    res.status(400).json(errors);
   }
 
   const { email, password } = req.body;
   User.findOne({ email })
     .then(user => {
       if (!user) {
-        errors.email = 'User not found!'
-        return res.status(404).json(errors)
+        errors.email = 'User not found!';
+        return res.status(404).json(errors);
       } else {
         bcryptjs.compare(password, user.password)
           .then(isMatch => {
@@ -88,15 +88,15 @@ router.post('/login', (req, res) => {
                 }
               )
             } else {
-              errors.password = "Password incorrect"
-              return res.status(400).json(errors)
+              errors.password = "Password incorrect";
+              return res.status(400).json(errors);
             }
           })
       }
     })
     .catch(err => {
       console.error(err);
-      return res.status(500).json("message: Server Error")
+      return res.status(500).json("message: Server Error");
     })
 
 })
@@ -113,7 +113,7 @@ router.get('/', auth, (req, res) => {
       email: req.user.email
     })
   } catch (err) {
-    res.status(500).json("Server error")
+    res.status(500).json("Server error");
   }
 })
 
