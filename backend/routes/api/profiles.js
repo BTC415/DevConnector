@@ -123,6 +123,7 @@ router.get('/user/:user_id', (req, res) => {
 router.get('/all', (req, res) => {
   const errors = {};
   Profile.find()
+    .populate('user', ['name', 'avatar'])
     .then(profiles => {
       if (!profiles) {
         errors.profiles = "There isn't any user profiles."
@@ -136,16 +137,35 @@ router.get('/all', (req, res) => {
 //@route    POST api/profiles/add-experience
 //@desc     Add experience to profile
 //@access   Private
-router.post('/add-experience', (req, res) => {
+router.post('/add-experience', auth, (req, res) => {
   //Check if input field is valid
   const { errors, isValid } = validateExperienceInput(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors)
   }
-  
-  //Get experience fields from input
 
+  //Get experience fields from input
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      if (!profile) {
+        res.status(404).json("There is no profile for this user. So you cannot add experience");
+      }
+
+      const newExp = {
+        title: req.body.title,
+        company: req.body.company,
+        location: req.body.location,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description,
+      }
+      
+      //Add experience in the exp array from the beginning(insert)
+      profile.experience.unshift(newExp);
+      profile.save().then(profile => res.json(profile))
+    })
 })
 
 
