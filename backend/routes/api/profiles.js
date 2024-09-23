@@ -145,7 +145,7 @@ router.post('/add-experience', (req, res) => {
   }
   
   //Get experience fields from input
-  
+
 })
 
 
@@ -167,7 +167,5 @@ router.post('/add-experience', (req, res) => {
 //@route    DELETE api/profiles
 //@desc     Delete user's profile and user
 //@access   Private
-
-
 
 module.exports = router;
