@@ -161,7 +161,7 @@ router.post('/add-experience', auth, (req, res) => {
         current: req.body.current,
         description: req.body.description,
       }
-      
+
       //Add experience in the exp array from the beginning(insert)
       profile.experience.unshift(newExp);
       profile.save().then(profile => res.json(profile))
@@ -172,7 +172,9 @@ router.post('/add-experience', auth, (req, res) => {
 //@route    POST api/profiles/add-education
 //@desc     Add education to profile
 //@access   Private
-
+router.post('/add-education', auth, (req, res) => {
+  
+})
 
 //@route    DELETE api/profiles/:exp_id
 //@desc     Delete user's work experience by its id from profile
