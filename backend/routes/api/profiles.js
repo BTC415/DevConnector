@@ -7,6 +7,7 @@ const auth = require('../../middleware/auth');
 
 const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
 
 //@route    GET api/profiles
 //@desc     Get current users profile 
@@ -149,7 +150,8 @@ router.post('/add-experience', auth, (req, res) => {
   Profile.findOne({ user: req.user.id })
     .then(profile => {
       if (!profile) {
-        res.status(404).json("There is no profile for this user. So you cannot add experience");
+        errors.profile = "There is no profile for this user. So you cannot add experience";
+        return res.status(404).json(errors);
       }
 
       const newExp = {
@@ -173,7 +175,38 @@ router.post('/add-experience', auth, (req, res) => {
 //@desc     Add education to profile
 //@access   Private
 router.post('/add-education', auth, (req, res) => {
-  
+  //Check if the input fields are valid.
+  const { errors, isValid } = validateEducationInput(req.body);
+
+  if (!isValid) {
+    res.status(400).json(errors)
+  }
+
+  //Get education fields from input
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      if (!profile) {
+        errors.profile = "There is no profile for this user."
+        return res.status(400).json(errors)
+      }
+
+      const newEdu = {
+        school: req.body.school,
+        degree: req.body.degree,
+        fieldOfStudy: req.body.fieldOfStudy,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description,
+      }
+
+      profile.education.unshift(newEdu);
+      profile.save()
+        .then(profile => res.json(profile))
+        .catch(err => {
+          return res.status(500).json("Internal Server Error. Please try again later ----->", err)
+        })
+    })
 })
 
 //@route    DELETE api/profiles/:exp_id
