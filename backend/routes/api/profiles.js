@@ -215,14 +215,18 @@ router.delete("/:exp_id", auth, (req, res) => {
   const exp_id = req.params.exp_id;
   Profile.fineOne({ user: req.user.id })
     .then(profile => {
+      //Find the experience item with its id.
       const removeIndex = profile.experience
         .map(item => item.id)
         .indexOf(exp_id);
-      profile = profile.splice(removeIndex, 1);
 
-      profile.save();
-      return res.json(profile)
-    }).catch(err=>res.status(404).json("There is no experience item you are willing to delete."))
+      //Delete experience item from profile
+      profile = profile.experience.splice(removeIndex, 1);
+
+      //save
+      profile.save()
+        .then(profile => res.json(profile))
+    }).catch(err => res.status(404).json(err))
 })
 
 //@route    DELETE api/profiles/:edu_id
