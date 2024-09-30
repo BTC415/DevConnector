@@ -211,7 +211,19 @@ router.post('/add-education', auth, (req, res) => {
 //@route    DELETE api/profiles/:exp_id
 //@desc     Delete user's work experience by its id from profile
 //@access   Private
+router.delete("/:exp_id", auth, (req, res) => {
+  const exp_id = req.params.exp_id;
+  Profile.fineOne({ user: req.user.id })
+    .then(profile => {
+      const removeIndex = profile.experience
+        .map(item => item.id)
+        .indexOf(exp_id);
+      profile = profile.splice(removeIndex, 1);
 
+      profile.save();
+      return res.json(profile)
+    }).catch(err=>res.status(404).json("There is no experience item you are willing to delete."))
+})
 
 //@route    DELETE api/profiles/:edu_id
 //@desc     Delete user's education by its id from profile
