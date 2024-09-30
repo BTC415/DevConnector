@@ -232,10 +232,32 @@ router.delete("/:exp_id", auth, (req, res) => {
 //@route    DELETE api/profiles/:edu_id
 //@desc     Delete user's education by its id from profile
 //@access   Private
+router.delete("/:edu_id", auth, (req, res) => {
+  const edu_id = req.params.edu_id;
+  Profile.findOne({ id: req.user.id })
+    .then(profile => {
+      //Find the profile education item that you are willing to delete
+      const removeIndex = profile.education
+        .map(item => item.id)
+        .indexOf(edu_id);
 
+      //Remove education item from its profile
+      profile = profile.education.splice(removeIndex, 1)
+
+      //Save
+      profile.save().then(profile => res.json(profile))
+    })
+    .catch(err => res.status(404).json(err))
+})
 
 //@route    DELETE api/profiles
 //@desc     Delete user's profile and user
 //@access   Private
+router.delete("/", auth, (req, res) => {
+  Profile.findOneAndDelete({ user: req.user.id })
+    .then(() => User.findOneAndDelete({ _id: req.user.id }))
+    .then(() => res.json("Success: true"))
+})
+
 
 module.exports = router;
