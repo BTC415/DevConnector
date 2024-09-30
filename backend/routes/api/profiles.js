@@ -170,7 +170,6 @@ router.post('/add-experience', auth, (req, res) => {
     })
 })
 
-
 //@route    POST api/profiles/add-education
 //@desc     Add education to profile
 //@access   Private
