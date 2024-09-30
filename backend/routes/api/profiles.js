@@ -259,5 +259,4 @@ router.delete("/", auth, (req, res) => {
     .then(() => res.json("Success: true"))
 })
 
-
 module.exports = router;
